@@ -1,0 +1,29 @@
+{
+  "name": "gamescon",
+  "version": "1.0.5",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No test specified\"",
+    "build": "tsc"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Nikola Ilic",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^15.1.1",
+    "@types/aws-lambda": "^8.10.39",
+    "@types/hapi__joi": "^15.0.4",
+    "@types/node": "^12.12.24",
+    "aws-lambda": "^0.1.2",
+    "postgres": "^1.0.1",
+    "serverless-pseudo-parameters": "^2.5.0",
+    "typescript": "^3.7.4"
+  },
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^2.1.1",
+    "serverless-step-functions": "^2.17.0"
+  }
+}

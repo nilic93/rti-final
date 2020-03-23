@@ -1,0 +1,119 @@
+service: gamescon
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ${opt:region, 'eu-west-1'}
+  stage: ${opt:stage, 'dev'}
+  environment:
+    POSTGRESQL_HOST: ${self:custom.POSTGRESQL.HOST}
+    POSTGRESQL_PORT: ${self:custom.POSTGRESQL.PORT}
+    DB_NAME: ${env:DB_NAME}
+    USERNAME: ${env:USERNAME}
+    PASSWORD: ${env:PASSWORD}
+
+custom:
+  POSTGRESQL:
+    HOST:
+      Fn::GetAtt: [PostgreSqlRDSInstance, Endpoint.Address]
+    PORT:
+      Fn::GetAtt: [PostgreSqlRDSInstance, Endpoint.Port]
+
+functions:
+
+  create-tables:
+    name: create-tables-${self:provider.stage}
+    handler: dist/functions/create-tables.handler
+    events:
+      - http:
+          method: GET
+          path: create-table
+          cors: true
+
+  add-user:
+    name: add-user
+    handler: dist/functions/add-user.handler
+
+  validation:
+    name: validation-${self:provider.stage}
+    handler: dist/functions/validation.handler
+
+stepFunctions:
+  stateMachines:
+    BackendFlow:
+      id: BackendFlow
+      name: BackendFlow-${self:provider.stage}
+      definition:
+        TimeoutSeconds: 300
+        StartAt: Validate Payload
+        States:
+          Validate Payload:
+            Type: Task
+            ResultPath: $.info
+            Resource:
+              Fn::GetAtt: [validation, Arn]
+            Retry:
+              - ErrorEquals: [ Lambda.ServiceException, Lambda.AWSLambdaException, Lambda.SdkClientException ]
+                IntervalSeconds: 2
+                MaxAttempts: 6
+                BackoffRate: 2
+            Next: DoChoice
+
+          DoChoice:
+            Type: Choice
+            Choices:
+              - Variable: "$.info.operation"
+                StringEquals: "add_user"
+                Next: Add User
+              - Variable: "$.info.operation"
+                StringEquals: "add_result"
+                Next: Add Result
+              - Variable: "$.info.operation"
+                StringEquals: "top_ten"
+                Next: Top Ten
+              - Variable: "$.info.operation"
+                StringEquals: "users_best"
+                Next: Users Best
+          Add User:
+            Type: Task
+            ResultPath: $.info.add_user
+            Resource:
+              Fn::GetAtt: [add-user, Arn]
+              Retry:
+                - ErrorEquals: [ Lambda.ServiceException, Lambda.AWSLambdaException, Lambda.SdkClientException ]
+                  IntervalSeconds: 2
+                  MaxAttempts: 6
+                  BackoffRate: 2
+            Next: FinalState
+          Add Result:
+            Type: Pass
+            Next: FinalState
+          Top Ten:
+            Type: Pass
+            Next: FinalState
+          Users Best:
+            Type: Pass
+            Next: FinalState
+          FinalState:
+            Type: Succeed
+
+resources:
+  Resources:
+    PostgreSqlRDSInstance:
+      Type: AWS::RDS::DBInstance
+      Properties:
+        MasterUsername: ${env:USERNAME}
+        MasterUserPassword: ${env:PASSWORD}
+        AllocatedStorage: 20
+        DBName: ${env:DB_NAME}
+        DBInstanceClass: db.t2.micro
+        Engine: postgres
+        PubliclyAccessible: true
+
+
+
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-step-functions
+  - serverless-pseudo-parameters
+
