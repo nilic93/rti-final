@@ -17,7 +17,7 @@
     "@types/aws-lambda": "^8.10.39",
     "@types/hapi__joi": "^15.0.4",
     "@types/node": "^12.12.24",
-    "aws-lambda": "^0.1.2",
+    "aws-lambda": "^1.0.5",
     "postgres": "^1.0.1",
     "serverless-pseudo-parameters": "^2.5.0",
     "typescript": "^3.7.4"
