@@ -1,8 +1,8 @@
 Resources:
-  ContentReadRole:
+  ResultReadRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: ContentReadRole
+      RoleName: ResultReadRole
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -12,4 +12,3 @@ Resources:
                 - lambda.amazonaws.com
             Action: sts:AssumeRole
 
-        

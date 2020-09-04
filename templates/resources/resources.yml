@@ -7,16 +7,16 @@ provider:
   stage: ${opt:stage, 'dev'}
 
 custom:
-  content-table-name: content-${self:provider.stage}
+  result-table: result-${self:provider.stage}
 
 resources:
   #TABLES
-  - ${file(templates/resources/db/content.table.yml)}
+  - ${file(templates/resources/db/result.table.yml)}
   #POLICIES
-  - ${file(templates/resources/policies/content-read.yml)}
+  - ${file(templates/resources/policies/result-read.yml)}
   - ${file(templates/resources/policies/logging.yml)}
   #ROLES
-  - ${file(templates/resources/roles/content-read.yml)}
+  - ${file(templates/resources/roles/result-read.yml)}
   #COGNITO
   - ${file(templates/resources/cognito/cognito.yml)}
 

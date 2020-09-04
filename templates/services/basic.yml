@@ -13,18 +13,16 @@ custom:
     ${file(templates/shared.yml):prune}
   webpack:
     ${file(templates/shared.yml):webpack}
-  content-table-name:
-    content-${self:provider.stage}
-  content-table-read-role:
-    arn:aws:iam::#{AWS::AccountId}:role/ContentReadRole
+  result-table-read-role:
+    arn:aws:iam::#{AWS::AccountId}:role/ResultReadRole
 
 functions:
 
   translations:
     handler: src/functions/basic/translations/handler.translations
-    role: ${self:custom.content-table-read-role}
+    role: ${self:custom.result-table-read-role}
     environment:
-      CONTENT_TABLE_NAME: ${self:custom.content-table-name}
+      RESULT_TABLE_NAME: result-base
     events:
       - http:
           method: get
@@ -33,9 +31,9 @@ functions:
 
   slides:
     handler: src/functions/basic/slides/handler.slides
-    role: ${self:custom.content-table-read-role}
+    role: ${self:custom.result-table-read-role}
     environment:
-      CONTENT_TABLE_NAME: ${self:custom.content-table-name}
+      RESULT_TABLE_NAME: result-base
     events:
       - http:
           method: get
@@ -52,66 +50,6 @@ functions:
       - http:
           method: post
           path: init
-          cors: true
-          authorizer:
-            type: COGNITO_USER_POOLS
-            authorizerId:
-              Ref: ApiGatewayAuthorizer
-
-  brands:
-    handler: src/functions/basic/brands/handler.brands
-    events:
-      - http:
-          method: get
-          path: brands
-          cors: true
-          authorizer:
-            type: COGNITO_USER_POOLS
-            authorizerId:
-              Ref: ApiGatewayAuthorizer
-
-  appointments:
-    handler: src/functions/basic/appointments/handler.appointments
-    events:
-      - http:
-          method: get
-          path: appointments
-          cors: true
-          authorizer:
-            type: COGNITO_USER_POOLS
-            authorizerId:
-              Ref: ApiGatewayAuthorizer
-
-  faqs:
-    handler: src/functions/basic/faqs/handler.faqs
-    events:
-      - http:
-          method: get
-          path: faqs
-          cors: true
-          authorizer:
-            type: COGNITO_USER_POOLS
-            authorizerId:
-              Ref: ApiGatewayAuthorizer
-
-  feed:
-    handler: src/functions/basic/feed/handler.feed
-    events:
-      - http:
-          method: get
-          path: feed/{license_plate}/{month_year}
-          cors: true
-          authorizer:
-            type: COGNITO_USER_POOLS
-            authorizerId:
-              Ref: ApiGatewayAuthorizer
-
-  contract:
-    handler: src/functions/basic/contract/handler.contract
-    events:
-      - http:
-          method: get
-          path: contract/{license_plate}
           cors: true
           authorizer:
             type: COGNITO_USER_POOLS

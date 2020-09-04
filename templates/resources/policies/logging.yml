@@ -24,6 +24,5 @@ Resources:
                   - Ref: 'AWS::AccountId'
                   - 'log-group:/aws/lambda/*:*'
       Roles:
-        - 
-          Ref: ContentReadRole
-          
+        -
+          Ref: ResultReadRole

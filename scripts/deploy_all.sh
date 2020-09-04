@@ -20,6 +20,6 @@ sls deploy --config templates/resources/resources.yml --stage $STAGE
 echo '  -------------   deploying basic service  ------------- '
 sls deploy --config templates/services/basic.yml --stage $STAGE
 
-echo '  -------------   deploying backup service  ------------- '  # only stage different
-sls deploy --config templates/services/basic.yml --stage backup
+#echo '  -------------   deploying backup service  ------------- '  # only stage different
+#sls deploy --config templates/services/basic.yml --stage backup
 

@@ -4,7 +4,7 @@
   Serverless template with one hello world lambda in JS(typescript) setup\
   Node version LTS 12.14.1\
   Testing with Jest\
-  Pre-commit hook including linter, unit tests, build, audit and pre-commit messages\
+  Pre-commit hook including linter, unit tests, build, audit and pre-commit messages
 
 ## To added or changed
   Lambda handler\

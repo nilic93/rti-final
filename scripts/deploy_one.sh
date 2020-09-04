@@ -19,14 +19,7 @@ then
 fi
 echo "stage: $STAGE"
 
-if [ $SERVICE == 'resources' ]
-then
-	DIR='resources'
-else
-	DIR='services'
-fi
-
 echo '  -------------   installing project dependencies  ------------- '
 npm i
 echo "  -------------   deploying $SERVICE service  ------------- "
-sls deploy --config templates/$DIR/$SERVICE.yml --stage $STAGE
+sls deploy --config templates/services/$SERVICE.yml --stage $STAGE

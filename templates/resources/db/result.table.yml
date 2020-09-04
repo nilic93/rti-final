@@ -1,0 +1,25 @@
+Resources:
+  ResultTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.result-table}
+      AttributeDefinitions:
+        - AttributeName: email
+          AttributeType: S
+        - AttributeName: result
+          AttributeType: N
+        - AttributeName: sort
+          AttributeType: S
+      KeySchema:
+        - AttributeName: email
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: "sort_result"
+          KeySchema:
+            - AttributeName: "sort"
+              KeyType: "HASH"
+            - AttributeName: "result"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
