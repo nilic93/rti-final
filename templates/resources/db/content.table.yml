@@ -1,0 +1,15 @@
+Resources:
+  ContentTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: ${self:custom.content-table-name}
+      AttributeDefinitions:
+        - AttributeName: content_key
+          AttributeType: S
+      KeySchema:
+        - AttributeName: content_key
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+        

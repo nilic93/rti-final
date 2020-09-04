@@ -1,0 +1,131 @@
+
+service: functions
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-central-1
+  stage: ${opt:stage, 'dev'}
+  # environment variables can be added here
+  # environment:
+custom:
+  prune:
+    ${file(templates/shared.yml):prune}
+  webpack:
+    ${file(templates/shared.yml):webpack}
+  content-table-name:
+    content-${self:provider.stage}
+  content-table-read-role:
+    arn:aws:iam::#{AWS::AccountId}:role/ContentReadRole
+
+functions:
+
+  translations:
+    handler: src/functions/basic/translations/handler.translations
+    role: ${self:custom.content-table-read-role}
+    environment:
+      CONTENT_TABLE_NAME: ${self:custom.content-table-name}
+    events:
+      - http:
+          method: get
+          path: translations
+          cors: true
+
+  slides:
+    handler: src/functions/basic/slides/handler.slides
+    role: ${self:custom.content-table-read-role}
+    environment:
+      CONTENT_TABLE_NAME: ${self:custom.content-table-name}
+    events:
+      - http:
+          method: get
+          path: slides
+          cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
+
+  init:
+    handler: src/functions/basic/init/handler.init
+    events:
+      - http:
+          method: post
+          path: init
+          cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
+
+  brands:
+    handler: src/functions/basic/brands/handler.brands
+    events:
+      - http:
+          method: get
+          path: brands
+          cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
+
+  appointments:
+    handler: src/functions/basic/appointments/handler.appointments
+    events:
+      - http:
+          method: get
+          path: appointments
+          cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
+
+  faqs:
+    handler: src/functions/basic/faqs/handler.faqs
+    events:
+      - http:
+          method: get
+          path: faqs
+          cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
+
+  feed:
+    handler: src/functions/basic/feed/handler.feed
+    events:
+      - http:
+          method: get
+          path: feed/{license_plate}/{month_year}
+          cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
+
+  contract:
+    handler: src/functions/basic/contract/handler.contract
+    events:
+      - http:
+          method: get
+          path: contract/{license_plate}
+          cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
+
+# resources can be added here
+resources:
+  ${file(templates/shared.yml):authorizer}
+
+plugins:
+  - serverless-pseudo-parameters
+  - serverless-webpack
+  - serverless-prune-plugin
+
+
+

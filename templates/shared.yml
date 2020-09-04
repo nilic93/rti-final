@@ -1,0 +1,23 @@
+prune:
+  automatic: true
+  includeLayers: true
+  number: 2
+
+webpack:
+    webpackConfig: 'webpack.config.js'   # Name of webpack configuration file
+    packager: 'npm'
+
+authorizer:
+  Resources:
+    ApiGatewayAuthorizer:
+      DependsOn:
+        - ApiGatewayRestApi
+      Type: AWS::ApiGateway::Authorizer
+      Properties:
+        Name: cognito-authorizer
+        IdentitySource: method.request.header.Authorization
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        Type: COGNITO_USER_POOLS
+        ProviderARNs:
+          - Fn::ImportValue: user-pool-users-base

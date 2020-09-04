@@ -1,0 +1,29 @@
+service: resources
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: eu-central-1
+  stage: ${opt:stage, 'dev'}
+
+custom:
+  content-table-name: content-${self:provider.stage}
+
+resources:
+  #TABLES
+  - ${file(templates/resources/db/content.table.yml)}
+  #POLICIES
+  - ${file(templates/resources/policies/content-read.yml)}
+  - ${file(templates/resources/policies/logging.yml)}
+  #ROLES
+  - ${file(templates/resources/roles/content-read.yml)}
+  #COGNITO
+  - ${file(templates/resources/cognito/cognito.yml)}
+
+
+
+
+
+
+
+
