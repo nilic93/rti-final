@@ -1,4 +1,4 @@
-# Digital driver assistant project
+# Gamescon backend project
 
 ## project includes:
   Serverless template with one hello world lambda in JS(typescript) setup\

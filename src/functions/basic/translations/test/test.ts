@@ -41,7 +41,6 @@ describe('Translations handler', () => {
     const expectedData = {
       content_key: TranslationsMocks.MockDynamoDBResponse.Item.content_key,
       data: TranslationsMocks.MockDynamoDBResponse.Item.data,
-      hash: createHash('md5').update(`${TranslationsMocks.MockDynamoDBResponse.Item.updatedAt}`).digest('hex'),
     };
     expect(await translations(undefined)).toStrictEqual(
       {
