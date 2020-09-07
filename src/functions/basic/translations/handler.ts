@@ -7,10 +7,10 @@ export async function translations(event: APIGatewayEvent): Promise<any> {
   const config = process.env.IS_LOCAL === 'true' ? ServiceConfig.getDynamoConnectionConfig() : undefined;
   const client = new DynamoDB.DocumentClient(config);
   try {
-    const results = await client.get({ TableName: process.env.RESULT_TABLE_NAME, Key: { email: 'korbisin@gmail.com' } })
+    const results = await client.scan({ TableName: process.env.RESULT_TABLE_NAME, Select: 'ALL_ATTRIBUTES' })
       .promise();
     const response = {
-      data: results.Item,
+      data: results,
     };
     return {
       statusCode: 200,
