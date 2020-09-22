@@ -18,38 +18,38 @@ custom:
 
 functions:
 
-  translations:
-    handler: src/functions/basic/translations/handler.translations
+  results:
+    handler: src/functions/basic/results/handler.results
     role: ${self:custom.result-table-read-role}
     environment:
-      RESULT_TABLE_NAME: result-base
+      RESULT_TABLE_NAME: result-${self:provider.stage}
     events:
       - http:
           method: get
-          path: translations
+          path: results
           cors: true
 
-  slides:
-    handler: src/functions/basic/slides/handler.slides
+  get-user-result:
+    handler: src/functions/basic/get-user-result/handler.getUserResult
     role: ${self:custom.result-table-read-role}
     environment:
-      RESULT_TABLE_NAME: result-base
+      RESULT_TABLE_NAME: result-${self:provider.stage}
     events:
       - http:
           method: get
-          path: slides
+          path: user
           cors: true
           authorizer:
             type: COGNITO_USER_POOLS
             authorizerId:
               Ref: ApiGatewayAuthorizer
 
-  init:
-    handler: src/functions/basic/init/handler.init
+  put-result:
+    handler: src/functions/basic/put_result/handler.putResult
     events:
       - http:
           method: post
-          path: init
+          path: result
           cors: true
           authorizer:
             type: COGNITO_USER_POOLS

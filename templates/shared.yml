@@ -20,4 +20,4 @@ authorizer:
           Ref: ApiGatewayRestApi
         Type: COGNITO_USER_POOLS
         ProviderARNs:
-          - Fn::ImportValue: user-pool-users-base
+          - Fn::ImportValue: user-pool-users-${self:provider.stage}

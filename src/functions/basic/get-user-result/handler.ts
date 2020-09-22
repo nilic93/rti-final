@@ -3,11 +3,11 @@ import { DynamoDB } from 'aws-sdk';
 import { APIGatewayEvent } from 'aws-lambda';
 import { ServiceConfig } from '../../../util/config.service';
 
-export async function translations(event: APIGatewayEvent): Promise<any> {
+export async function getUserResult(event: APIGatewayEvent): Promise<any> {
   const config = process.env.IS_LOCAL === 'true' ? ServiceConfig.getDynamoConnectionConfig() : undefined;
   const client = new DynamoDB.DocumentClient(config);
   try {
-    const results = await client.scan({ TableName: process.env.RESULT_TABLE_NAME, Select: 'ALL_ATTRIBUTES' })
+    const results = await client.scan({ TableName: process.env.CONTENT_TABLE_NAME })
       .promise();
     const response = {
       data: results,
@@ -17,7 +17,6 @@ export async function translations(event: APIGatewayEvent): Promise<any> {
       body: JSON.stringify(response),
     };
   } catch (error) {
-    console.log(JSON.stringify(error));
     throw new Error('InternalServerError');
   }
 }
