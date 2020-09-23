@@ -4,7 +4,7 @@ provider:
   name: aws
   runtime: nodejs12.x
   region: eu-central-1
-  stage: ${opt:stage, 'dev'}
+  stage: base
 
 custom:
   result-table: result-${self:provider.stage}

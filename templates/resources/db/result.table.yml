@@ -6,11 +6,11 @@ Resources:
       AttributeDefinitions:
         - AttributeName: email
           AttributeType: S
-        - AttributeName: result
+        - AttributeName: timestamp
           AttributeType: N
       KeySchema:
         - AttributeName: email
           KeyType: HASH
-        - AttributeName: result
+        - AttributeName: timestamp
           KeyType: RANGE
       BillingMode: PAY_PER_REQUEST

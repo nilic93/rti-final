@@ -9,12 +9,9 @@ export async function results(event: APIGatewayEvent): Promise<any> {
   try {
     const result = await client.scan({ TableName: process.env.RESULT_TABLE_NAME, Select: 'ALL_ATTRIBUTES' })
       .promise();
-    const response = {
-      data: result,
-    };
     return {
       statusCode: 200,
-      body: JSON.stringify(response),
+      body: JSON.stringify(result.Items),
     };
   } catch (error) {
     console.log(JSON.stringify(error));

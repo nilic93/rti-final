@@ -6,8 +6,7 @@ provider:
   runtime: nodejs12.x
   region: eu-central-1
   stage: ${opt:stage, 'dev'}
-  # environment variables can be added here
-  # environment:
+
 custom:
   prune:
     ${file(templates/shared.yml):prune}
@@ -22,7 +21,7 @@ functions:
     handler: src/functions/basic/results/handler.results
     role: ${self:custom.result-table-read-role}
     environment:
-      RESULT_TABLE_NAME: result-${self:provider.stage}
+      RESULT_TABLE_NAME: result-base
     events:
       - http:
           method: get
@@ -33,16 +32,16 @@ functions:
     handler: src/functions/basic/get-user-result/handler.getUserResult
     role: ${self:custom.result-table-read-role}
     environment:
-      RESULT_TABLE_NAME: result-${self:provider.stage}
+      RESULT_TABLE_NAME: result-base
     events:
       - http:
           method: get
-          path: user
+          path: user/{email}
           cors: true
-          authorizer:
-            type: COGNITO_USER_POOLS
-            authorizerId:
-              Ref: ApiGatewayAuthorizer
+#          authorizer:
+#            type: COGNITO_USER_POOLS
+#            authorizerId:
+#              Ref: ApiGatewayAuthorizer
 
   put-result:
     handler: src/functions/basic/put_result/handler.putResult
@@ -51,12 +50,11 @@ functions:
           method: post
           path: result
           cors: true
-          authorizer:
-            type: COGNITO_USER_POOLS
-            authorizerId:
-              Ref: ApiGatewayAuthorizer
+#          authorizer:
+#            type: COGNITO_USER_POOLS
+#            authorizerId:
+#              Ref: ApiGatewayAuthorizer
 
-# resources can be added here
 resources:
   ${file(templates/shared.yml):authorizer}
 
