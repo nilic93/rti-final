@@ -38,10 +38,6 @@ functions:
           method: get
           path: user/{email}
           cors: true
-#          authorizer:
-#            type: COGNITO_USER_POOLS
-#            authorizerId:
-#              Ref: ApiGatewayAuthorizer
 
   put-result:
     handler: src/functions/basic/put_result/handler.putResult
@@ -50,10 +46,7 @@ functions:
           method: post
           path: result
           cors: true
-#          authorizer:
-#            type: COGNITO_USER_POOLS
-#            authorizerId:
-#              Ref: ApiGatewayAuthorizer
+
 
 resources:
   ${file(templates/shared.yml):authorizer}
