@@ -14,7 +14,7 @@
     "target": "es6",
     "sourceMap": true,
     "allowJs": true,
-    "lib": [ "es6" ],
+    "lib": [ "es2020" ],
     "outDir": "./dist",
     "resolveJsonModule": true
   },

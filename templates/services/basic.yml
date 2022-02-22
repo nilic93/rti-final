@@ -1,60 +1,63 @@
 
-service: functions
+service: basic
 
 provider:
   name: aws
   runtime: nodejs12.x
-  region: eu-central-1
+  region: us-east-1
   stage: ${opt:stage, 'dev'}
+  environment:
+    STAGE: ${self:provider.stage}
+  apiName: multiregion-helloworld
+  lambdaHashingVersion: '20201221'
+
 
 custom:
   prune:
-    ${file(templates/shared.yml):prune}
+    automatic: true
+    includeLayers: true
+    number: 2
   webpack:
-    ${file(templates/shared.yml):webpack}
-  result-table-read-role:
-    arn:aws:iam::#{AWS::AccountId}:role/ResultReadRole
+    webpackConfig: 'webpack.config.js'   # Name of webpack configuration file
+    packager: 'npm'
+  domainName:
+    dev: customweatherproject.net
+    test: customweatherproject.net
+    acc: customweatherproject.net
+    prod: customweatherproject.net
+  certificate:
+    dev: arn:aws:acm:us-east-1:346568244904:certificate/4bd4ff67-864e-49fa-9135-b3f167097116
+    test: arn:aws:acm:us-east-1:346568244904:certificate/4bd4ff67-864e-49fa-9135-b3f167097116
+    acc: arn:aws:acm:us-east-1:346568244904:certificate/4bd4ff67-864e-49fa-9135-b3f167097116
+    prod: arn:aws:acm:us-east-1:346568244904:certificate/4bd4ff67-864e-49fa-9135-b3f167097116
+  zoneId:
+    dev: 'Z1UJRXOUMOOFQ8'
+    test: 'Z1UJRXOUMOOFQ8'
+    acc: 'Z1UJRXOUMOOFQ8'
+    prod: 'Z1UJRXOUMOOFQ8'
+  customDomain:
+    domainName: ${self:custom.domainName.${self:provider.stage}, self:custom.domainName.dev}
+    basePath: 'basic'
+    certificateArn: ${self:custom.certificate.${self:provider.stage}, self:custom.certificate.dev}
+    createRoute53Record: true
+    hostedZoneId: ${self:custom.zoneId.${self:provider.stage}, self:custom.zoneId.dev}
+    stage: ${self:provider.stage}
+    securityPolicy: tls_1_2
 
 functions:
 
-  results:
-    handler: src/functions/basic/results/handler.results
-    role: ${self:custom.result-table-read-role}
-    environment:
-      RESULT_TABLE_NAME: result-base
+  basic:
+    handler: src/functions/basic/handler.basic
     events:
       - http:
           method: get
-          path: results
+          path: test
           cors: true
-
-  get-user-result:
-    handler: src/functions/basic/get-user-result/handler.getUserResult
-    role: ${self:custom.result-table-read-role}
-    environment:
-      RESULT_TABLE_NAME: result-base
-    events:
-      - http:
-          method: get
-          path: user/{email}
-          cors: true
-
-  put-result:
-    handler: src/functions/basic/put_result/handler.putResult
-    events:
-      - http:
-          method: post
-          path: result
-          cors: true
-
-
-resources:
-  ${file(templates/shared.yml):authorizer}
 
 plugins:
-  - serverless-pseudo-parameters
   - serverless-webpack
   - serverless-prune-plugin
+  - serverless-domain-manager
 
 
 
