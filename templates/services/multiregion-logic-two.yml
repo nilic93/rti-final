@@ -1,10 +1,9 @@
-
-service: basic
+service: multiregion-logic-two
 
 provider:
   name: aws
   runtime: nodejs14.x
-  region: us-east-1
+  region: us-west-2
   stage: ${opt:stage, 'dev'}
   environment:
     STAGE: ${self:provider.stage}
@@ -25,10 +24,10 @@ custom:
     acc: rti-final-project.com
     prod: rti-final-project.com
   certificate:
-    dev: arn:aws:acm:us-east-1:630698576776:certificate/0c1eba7e-e9b9-4d33-8723-d0ef05128bcc
-    test: arn:aws:acm:us-east-1:630698576776:certificate/0c1eba7e-e9b9-4d33-8723-d0ef05128bcc
-    acc: arn:aws:acm:us-east-1:630698576776:certificate/0c1eba7e-e9b9-4d33-8723-d0ef05128bcc
-    prod: arn:aws:acm:us-east-1:630698576776:certificate/0c1eba7e-e9b9-4d33-8723-d0ef05128bcc
+    dev: arn:aws:acm:us-west-2:630698576776:certificate/34a84c05-bbd1-4189-83d2-a2ed870ec95b
+    test: arn:aws:acm:us-west-2:630698576776:certificate/34a84c05-bbd1-4189-83d2-a2ed870ec95b
+    acc: arn:aws:acm:us-west-2:630698576776:certificate/34a84c05-bbd1-4189-83d2-a2ed870ec95b
+    prod: arn:aws:acm:us-west-2:630698576776:certificate/34a84c05-bbd1-4189-83d2-a2ed870ec95b
   zoneId:
     dev: 'Z0471933M7LHYMIFRI7D'
     test: 'Z0471933M7LHYMIFRI7D'
@@ -36,7 +35,7 @@ custom:
     prod: 'Z0471933M7LHYMIFRI7D'
   customDomain:
     domainName: ${self:custom.domainName.${self:provider.stage}, self:custom.domainName.dev}
-    basePath: 'basic'
+    basePath: 'multiregion'
     certificateArn: ${self:custom.certificate.${self:provider.stage}, self:custom.certificate.dev}
     createRoute53Record: true
     hostedZoneId: ${self:custom.zoneId.${self:provider.stage}, self:custom.zoneId.dev}
@@ -45,12 +44,20 @@ custom:
 
 functions:
 
-  basic:
-    handler: src/functions/basic/handler.basic
+  multiregion-logic:
+    handler: src/functions/multiregion-logic/handler-two.basic
     events:
       - http:
           method: get
-          path: test
+          path: info
+          cors: true
+
+  health-check-logic:
+    handler: src/functions/health-check-logic/handler-two.basic
+    events:
+      - http:
+          method: get
+          path: health
           cors: true
 
 plugins:
