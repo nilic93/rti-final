@@ -44,7 +44,9 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "eslint \"src/\" --ext .ts -c ./.eslintrc && npm run type-check && npm run audit",
+      "pre-commit": "eslint \"src/\" --ext .ts -c ./.eslintrc &&  npm run type-check && npm run audit && sls package -c templates/services/north-virginia.yml && sls package -c templates/services/oregon.yml && sls package -c templates/services/health-check.yml",
+
+
       "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
     }
   },
