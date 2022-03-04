@@ -8,6 +8,7 @@ provider:
   apiName: multiregion-virginia
   endpointType: REGIONAL
   logRetentionInDays: 14
+  lambdaHashingVersion: 20201221
 
 custom:
   prune:
