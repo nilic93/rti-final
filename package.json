@@ -1,5 +1,5 @@
 {
-  "name": "Multiregion",
+  "name": "MultiregionLambdaRecovery",
   "version": "1.0.0",
   "scripts": {
     "lint:fix": "eslint \"src/\" --ext .ts --fix -c ./.eslintrc",
