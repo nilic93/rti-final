@@ -1,8 +1,7 @@
 service: oregon-setup
 
 disabledDeprecations:
-  - CODE_1 # To disable specific deprecation with code "CODE_1"
-  - '*'
+  - NESTED_CUSTOM_CONFIGURATION_PATH
 
 provider:
   name: aws
