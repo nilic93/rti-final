@@ -1,11 +1,15 @@
 {
-  "name": "Multiregion Lambda recovery",
+  "name": "Multiregion",
   "version": "1.0.0",
   "scripts": {
     "lint:fix": "eslint \"src/\" --ext .ts --fix -c ./.eslintrc",
     "lint": "eslint \"src/\" --ext .ts -c ./.eslintrc",
     "type-check": "tsc --skipLibCheck",
-    "audit": "npm audit --production --audit-level=high"
+    "audit": "npm audit --production --audit-level=high",
+    "package-virginia": "sls package -c templates/services/north-virginia.yml",
+    "package-oregon":"sls package -c templates/services/oregon.yml",
+    "package-health-checks": "sls package -c templates/services/health-check.yml"
+
   },
   "repository": {
     "type": "git",
@@ -13,6 +17,7 @@
   },
   "author": "Nikola Ilic",
   "devDependencies": {
+    "npm-run-all": "3.1.2",
     "@commitlint/cli": "^16.0.1",
     "@commitlint/config-conventional": "^16.0.0",
     "@types/aws-lambda": "^8.10.89",
@@ -44,9 +49,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "eslint \"src/\" --ext .ts -c ./.eslintrc &&  npm run type-check && npm run audit && sls package -c templates/services/north-virginia.yml && sls package -c templates/services/oregon.yml && sls package -c templates/services/health-check.yml",
-
-
+      "pre-commit": "npm-run-all lint type-check audit package-virginia package-oregon package-health-checks",
       "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
     }
   },
@@ -63,5 +66,8 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "dependencies": {
+
   }
 }
