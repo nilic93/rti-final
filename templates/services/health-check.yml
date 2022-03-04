@@ -1,5 +1,8 @@
 service: health-check-config
 
+disabledDeprecations:
+  - NESTED_CUSTOM_CONFIGURATION_PATH
+
 provider:
   name: aws
   region: us-east-1
