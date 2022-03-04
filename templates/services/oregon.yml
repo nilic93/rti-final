@@ -1,8 +1,5 @@
 service: oregon-setup
 
-disabledDeprecations:
-  - NESTED_CUSTOM_CONFIGURATION_PATH
-
 provider:
   name: aws
   runtime: nodejs14.x
