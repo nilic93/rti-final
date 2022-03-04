@@ -12,9 +12,6 @@ provider:
   endpointType: REGIONAL
   logRetentionInDays: 14
   lambdaHashingVersion: 20201221
-  disabledDeprecations:
-    - CODE_1 # To disable specific deprecation with code "CODE_1"
-    - '*'
 
 custom:
   prune:
