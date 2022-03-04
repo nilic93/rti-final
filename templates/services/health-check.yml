@@ -1,14 +1,9 @@
-service: multiregion-logic-three
+service: health-check-config
 
 provider:
   name: aws
-  runtime: nodejs14.x
   region: us-east-1
-  stage: ${opt:stage, 'dev'}
-  environment:
-    STAGE: ${self:provider.stage}
-  apiName: multiregion-helloworld
-  endpointType: REGIONAL
+  stage: ${opt:stage, 'prod'}
 
 resources:
   Resources:
@@ -19,14 +14,13 @@ resources:
           Port: "443"
           Type: "HTTPS_STR_MATCH"
           SearchString: "ok"
-          ResourcePath: "/dev/health"
+          ResourcePath: "/prod/health"
           FullyQualifiedDomainName: lo4p8e4zu2.execute-api.us-east-1.amazonaws.com
           RequestInterval: "30"
           FailureThreshold: "2"
         HealthCheckTags:
           - Key: Name
-            Value: HealthcheckRegion1
-
+            Value: NorthVirginiaHealthCheck
 
     HealthcheckRegion2:
       Type: "AWS::Route53::HealthCheck"
@@ -35,13 +29,13 @@ resources:
           Port: "443"
           Type: "HTTPS_STR_MATCH"
           SearchString: "ok"
-          ResourcePath: "/dev/health"
+          ResourcePath: "/prod/health"
           FullyQualifiedDomainName: x7n9hwtr8k.execute-api.us-west-2.amazonaws.com
           RequestInterval: "30"
           FailureThreshold: "2"
         HealthCheckTags:
           - Key: Name
-            Value: HealthcheckRegion2
+            Value: OregonHealthCheck
 
 
 

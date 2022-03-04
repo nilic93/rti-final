@@ -1,12 +1,11 @@
 {
-  "name": "Disaster recovery",
+  "name": "Multiregion Lambda recovery",
   "version": "1.0.0",
   "scripts": {
     "lint:fix": "eslint \"src/\" --ext .ts --fix -c ./.eslintrc",
     "lint": "eslint \"src/\" --ext .ts -c ./.eslintrc",
     "type-check": "tsc --skipLibCheck",
-    "audit": "npm audit --production --audit-level=high",
-    "build": "tsc"
+    "audit": "npm audit --production --audit-level=high"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,51 @@
+service: oregon-setup
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-west-2
+  stage: ${opt:stage, 'prod'}
+  apiName: multiregion-oregon
+  endpointType: REGIONAL
+  logRetentionInDays: 14
+
+custom:
+  prune:
+    ${file(templates/services/shared.yml):prune}
+  webpack:
+    ${file(templates/services/shared.yml):webpack}
+  domainName:
+    ${file(templates/services/shared.yml):domainName}
+  certificate:
+    ${file(templates/services/shared.yml):certificate.oregon}
+  zoneId:
+    ${file(templates/services/shared.yml):dnsZoneId}
+  customDomain:
+    ${file(templates/services/shared.yml):customDomain}
+
+
+functions:
+
+  info:
+    handler: src/functions/oregon/info.handler
+    events:
+      - http:
+          method: get
+          path: info
+          cors: true
+
+  healthCheck:
+    handler: src/functions/oregon/health-check.handler
+    events:
+      - http:
+          method: get
+          path: health
+          cors: true
+
+plugins:
+  - serverless-webpack
+  - serverless-prune-plugin
+  - serverless-domain-manager
+
+
+
