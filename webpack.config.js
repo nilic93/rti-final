@@ -8,7 +8,7 @@ module.exports = {
   mode: isLocal ? 'development' : 'production',
   entry: slsw.lib.entries,
   target: 'node',
-  externals: [],
+  externals: [nodeExternals()],
   watch: false,
   devtool: 'source-map',
   resolve: {
@@ -25,7 +25,7 @@ module.exports = {
             path.resolve(__dirname, 'node_modules'),
             path.resolve(__dirname, '.serverless'),
             path.resolve(__dirname, '.webpack'),
-            path.resolve(__dirname, 'build'),
+            path.resolve(__dirname, 'dist'),
           ],
         ],
       },
