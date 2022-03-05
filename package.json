@@ -8,7 +8,8 @@
     "audit": "npm audit --production --audit-level=high",
     "package-virginia": "sls package -c templates/services/north-virginia.yml",
     "package-oregon":"sls package -c templates/services/oregon.yml",
-    "package-health-checks": "sls package -c templates/services/health-check.yml"
+    "package-health-checks": "sls package -c templates/services/health-check.yml",
+    "clear": "rm -rf .serverless dist package-lock.json"
 
   },
   "repository": {
@@ -49,7 +50,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm-run-all lint type-check audit package-virginia package-oregon package-health-checks",
+      "pre-commit": "npm-run-all lint type-check audit package-virginia package-oregon package-health-checks clear",
       "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
     }
   },
