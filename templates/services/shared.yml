@@ -4,7 +4,7 @@ prune:
   number: 2
 
 webpack:
-  webpackConfig: 'webpack.config.js'   # Name of webpack configuration file
+  webpackConfig: 'webpack.config.js'
   packager: 'npm'
 
 domainName:

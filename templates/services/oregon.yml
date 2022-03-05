@@ -37,6 +37,8 @@ functions:
 
   healthCheck:
     handler: src/functions/oregon/health-check.handler
+    environment:
+      STATUS: 'ok'
     events:
       - http:
           method: get
