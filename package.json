@@ -9,7 +9,7 @@
     "package-virginia": "sls package -c templates/services/north-virginia.yml",
     "package-oregon":"sls package -c templates/services/oregon.yml",
     "package-health-checks": "sls package -c templates/services/health-check.yml",
-    "clear": "rm -rf .serverless dist package-lock.json"
+    "clear": "rm -rf .serverless dist"
 
   },
   "repository": {
