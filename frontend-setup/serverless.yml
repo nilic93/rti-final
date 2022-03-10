@@ -1,0 +1,33 @@
+service: angular-serverless
+plugins:
+  - serverless-apigw-binary
+  - serverless-offline
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  memorySize: 192
+  timeout: 10
+package:
+  exclude:
+    - ./**
+    - "!node_modules/@vendia/**"
+  include:
+    - "node_modules/aws-serverless-express/**"
+    - "node_modules/binary-case/**"
+    - "node_modules/type-is/**"
+    - "node_modules/media-typer/**"
+    - "node_modules/mime-types/**"
+    - "node_modules/mime-db/**"
+    - "dist/**"
+    - "lambda.js"
+custom:
+  apigwBinary:
+    types:
+      - "*/*"
+functions:
+  api:
+    handler: lambda.handler
+    events:
+      - http: GET info/{proxy+}
+      - http: GET info/
