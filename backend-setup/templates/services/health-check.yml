@@ -1,0 +1,41 @@
+service: health-check-config
+
+provider:
+  name: aws
+  region: us-east-1
+  stage: ${opt:stage, 'prod'}
+
+resources:
+  Resources:
+    NorthVirginiaHealthCheck:
+      Type: "AWS::Route53::HealthCheck"
+      Properties:
+        HealthCheckConfig:
+          Port: "443"
+          Type: "HTTPS_STR_MATCH"
+          SearchString: "ok"
+          ResourcePath: "/prod/health"
+          FullyQualifiedDomainName: 7urbxcrqvl.execute-api.us-east-1.amazonaws.com
+          RequestInterval: "30"
+          FailureThreshold: "2"
+        HealthCheckTags:
+          - Key: Name
+            Value: NorthVirginiaHealthCheck
+
+    OregonHealthCheck:
+      Type: "AWS::Route53::HealthCheck"
+      Properties:
+        HealthCheckConfig:
+          Port: "443"
+          Type: "HTTPS_STR_MATCH"
+          SearchString: "ok"
+          ResourcePath: "/prod/health"
+          FullyQualifiedDomainName: f3444g06sb.execute-api.us-west-2.amazonaws.com
+          RequestInterval: "30"
+          FailureThreshold: "2"
+        HealthCheckTags:
+          - Key: Name
+            Value: OregonHealthCheck
+
+
+
