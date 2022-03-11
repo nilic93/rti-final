@@ -2,6 +2,8 @@
 /node_modules
 /backend-setup/node_modules
 /frontend-setup/node_modules
+#/frontend-setup/dist
+#/frontend-setup/.serverless
 
 # Serverless directories
 backend-setup/.serverless
