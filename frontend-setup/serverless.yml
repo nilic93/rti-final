@@ -1,13 +1,15 @@
-service: angular-serverless
-plugins:
-  - serverless-apigw-binary
-  - serverless-offline
+service: angular-serverlesss
+
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   region: us-east-1
-  memorySize: 192
-  timeout: 10
+  stage: ${opt:stage, 'prod'}
+  apiName: multiregion-virginia
+  endpointType: REGIONAL
+  logRetentionInDays: 14
+  lambdaHashingVersion: 20201221
+
 package:
   exclude:
     - ./**
@@ -21,13 +23,45 @@ package:
     - "node_modules/mime-db/**"
     - "dist/**"
     - "lambda.js"
+    - "health-check.js"
+
+
 custom:
+  prune:
+    ${file(shared.yml):prune}
+  domainName:
+    ${file(shared.yml):domainName}
+  certificate:
+    ${file(shared.yml):certificate.virginia}
+  zoneId:
+    ${file(shared.yml):dnsZoneId}
+  customDomain:
+    ${file(shared.yml):customDomain}
   apigwBinary:
     types:
       - "*/*"
+
+plugins:
+  - serverless-apigw-binary
+  - serverless-offline
+  - serverless-prune-plugin
+  - serverless-domain-manager
+
 functions:
-  api:
+  test:
     handler: lambda.handler
     events:
-      - http: GET info/{proxy+}
-      - http: GET info/
+      - http:
+          method: get
+          path: info
+          cors: true
+
+  healthCheck:
+    handler: health-check.handler
+    environment:
+      STATUS: 'ok'
+    events:
+      - http:
+          method: get
+          path: health
+          cors: true

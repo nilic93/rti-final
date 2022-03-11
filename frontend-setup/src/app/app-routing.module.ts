@@ -7,6 +7,11 @@ const routes: Routes = [
     redirectTo: '/',
     pathMatch: 'full'
   },
+  {
+    path: 'multiregion/info',
+    redirectTo: '/',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({
