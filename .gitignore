@@ -10,6 +10,7 @@
 
 # Serverless directories
 backend-setup/.serverless
+backend-setup/.idea
 
 # TSC results
 dist
