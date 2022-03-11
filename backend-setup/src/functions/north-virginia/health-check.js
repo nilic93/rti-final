@@ -1,6 +1,4 @@
-import { APIGatewayEvent } from 'aws-lambda';
-
-export async function handler(event: APIGatewayEvent): Promise<any> {
+export async function handler(event) {
   console.log('IS everything : ', process.env.STATUS);
   return {
     statusCode: 200,

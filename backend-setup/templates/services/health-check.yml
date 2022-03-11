@@ -15,7 +15,7 @@ resources:
           Type: "HTTPS_STR_MATCH"
           SearchString: "ok"
           ResourcePath: "/prod/health"
-          FullyQualifiedDomainName: 7urbxcrqvl.execute-api.us-east-1.amazonaws.com
+          FullyQualifiedDomainName: lopeegxpnf.execute-api.us-east-1.amazonaws.com
           RequestInterval: "30"
           FailureThreshold: "2"
         HealthCheckTags:
@@ -36,6 +36,3 @@ resources:
         HealthCheckTags:
           - Key: Name
             Value: OregonHealthCheck
-
-
-
