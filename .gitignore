@@ -2,8 +2,10 @@
 /node_modules
 /backend-setup/node_modules
 /frontend-setup/node_modules
-#/frontend-setup/dist
-#/frontend-setup/.serverless
+/frontend-setup/dist
+/frontend-setup/.serverless
+/frontend-setup/.idea
+/frontend-setup/.angular
 
 
 # Serverless directories
