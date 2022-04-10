@@ -1,12 +1,10 @@
-service: angular-oregon
+service: oregon-angular
 
 provider:
   name: aws
   runtime: nodejs14.x
   region: us-west-2
   stage: ${opt:stage, 'prod'}
-  apiName: multiregion-virginia
-  endpointType: REGIONAL
   logRetentionInDays: 14
   lambdaHashingVersion: 20201221
 
@@ -28,27 +26,22 @@ package:
 
 custom:
   prune:
-    ${file(shared.yml):prune}
-  domainName:
-    ${file(shared.yml):domainName}
-  certificate:
-    ${file(shared.yml):certificate.virginia}
-  zoneId:
-    ${file(shared.yml):dnsZoneId}
-  customDomain:
-    ${file(shared.yml):customDomain}
+    automatic: true
+    includeLayers: true
+    number: 2
+  importApiGateway:
+    name: multiregion-oregon
   apigwBinary:
     types:
       - "*/*"
 
 plugins:
   - serverless-apigw-binary
-  - serverless-offline
   - serverless-prune-plugin
-  - serverless-domain-manager
+  - serverless-import-apigateway
 
 functions:
-  angular:
+  home:
     handler: lambda.handler
     events:
       - http:

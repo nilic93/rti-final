@@ -8,7 +8,17 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'home',
+    redirectTo: '/',
+    pathMatch: 'full'
+  },
+  {
     path: 'multiregion/info',
+    redirectTo: '/',
+    pathMatch: 'full'
+  },
+  {
+    path: 'multiregion/home',
     redirectTo: '/',
     pathMatch: 'full'
   },
