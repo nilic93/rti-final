@@ -1,0 +1,57 @@
+service: angular-oregon
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-west-2
+  stage: ${opt:stage, 'prod'}
+  apiName: multiregion-virginia
+  endpointType: REGIONAL
+  logRetentionInDays: 14
+  lambdaHashingVersion: 20201221
+
+package:
+  exclude:
+    - ./**
+    - "!node_modules/@vendia/**"
+  include:
+    - "node_modules/aws-serverless-express/**"
+    - "node_modules/binary-case/**"
+    - "node_modules/type-is/**"
+    - "node_modules/media-typer/**"
+    - "node_modules/mime-types/**"
+    - "node_modules/mime-db/**"
+    - "dist/**"
+    - "lambda.js"
+    - "health-check.js"
+
+
+custom:
+  prune:
+    ${file(shared.yml):prune}
+  domainName:
+    ${file(shared.yml):domainName}
+  certificate:
+    ${file(shared.yml):certificate.virginia}
+  zoneId:
+    ${file(shared.yml):dnsZoneId}
+  customDomain:
+    ${file(shared.yml):customDomain}
+  apigwBinary:
+    types:
+      - "*/*"
+
+plugins:
+  - serverless-apigw-binary
+  - serverless-offline
+  - serverless-prune-plugin
+  - serverless-domain-manager
+
+functions:
+  angular:
+    handler: lambda.handler
+    events:
+      - http:
+          method: get
+          path: home
+          cors: true

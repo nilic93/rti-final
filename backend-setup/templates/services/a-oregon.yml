@@ -1,4 +1,4 @@
-service: oregon-setup
+service: oregon-functions
 
 provider:
   name: aws
@@ -26,14 +26,6 @@ custom:
 
 
 functions:
-
-  info:
-    handler: src/functions/oregon/info.handler
-    events:
-      - http:
-          method: get
-          path: info
-          cors: true
 
   healthCheck:
     handler: src/functions/oregon/health-check.handler

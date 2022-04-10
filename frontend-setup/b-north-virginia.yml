@@ -1,4 +1,4 @@
-service: angular-serverlesss
+service: angular-north-virginia
 
 provider:
   name: aws
@@ -48,20 +48,10 @@ plugins:
   - serverless-domain-manager
 
 functions:
-  test:
+  angular:
     handler: lambda.handler
     events:
       - http:
           method: get
-          path: info
-          cors: true
-
-  healthCheck:
-    handler: health-check.handler
-    environment:
-      STATUS: 'ok'
-    events:
-      - http:
-          method: get
-          path: health
+          path: home
           cors: true
