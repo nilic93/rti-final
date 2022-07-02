@@ -33,7 +33,7 @@ custom:
     types:
       - "*/*"
   importApiGateway:
-    name: multiregion-virginia
+    name: prod-north-virginia-angular
 
 plugins:
   - serverless-apigw-binary

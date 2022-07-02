@@ -30,7 +30,7 @@ custom:
     includeLayers: true
     number: 2
   importApiGateway:
-    name: multiregion-oregon
+    name: prod-oregon-angular
   apigwBinary:
     types:
       - "*/*"
