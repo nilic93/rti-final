@@ -1,0 +1,42 @@
+service: documents
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-central-1
+  stage: ${opt:stage, 'prod'}
+  logRetentionInDays: 14
+  lambdaHashingVersion: 20201221
+  iamManagedPolicies:
+    - arn:aws:iam::aws:policy/AmazonS3FullAccess
+
+custom:
+  prune:
+    ${file(templates/services/shared.yml):prune}
+  webpack:
+    ${file(templates/services/shared.yml):webpack}
+
+
+functions:
+
+  documentation-west:
+    handler: src/functions/north-virginia/documentation-west.handler
+    events:
+      - http:
+          method: get
+          path: west
+          cors: false
+
+  documentation-east:
+    handler: src/functions/oregon/documentation-east.handler
+    events:
+      - http:
+          method: get
+          path: east
+          cors: false
+
+plugins:
+  - serverless-webpack
+  - serverless-prune-plugin
+
+
