@@ -9,9 +9,6 @@ provider:
   lambdaHashingVersion: 20201221
 
 package:
-  exclude:
-    - ./**
-    - "!node_modules/@vendia/**"
   include:
     - "node_modules/aws-serverless-express/**"
     - "node_modules/binary-case/**"
