@@ -20,16 +20,16 @@ export class AppComponent {
     // return data;
   }
   // tslint:disable-next-line:typedef
-  openImage(event: any) {
-    console.log('test');
-    const result: any  = this.http.get('https://sgktvovhpa.execute-api.eu-central-1.amazonaws.com/prod/west')
-      // tslint:disable-next-line:no-shadowed-variable
-      .subscribe((result: any) => {
-        window.open(result.link, '_blank');
-      });
-    // window.open(`${result.link}`);
-    console.log('result', JSON.stringify(result));
-  }
+  // openImage(event: any) {
+  //   console.log('test');
+  //   const result: any  = this.http.get('https://sgktvovhpa.execute-api.eu-central-1.amazonaws.com/prod/west')
+  //     // tslint:disable-next-line:no-shadowed-variable
+  //     .subscribe((result: any) => {
+  //       window.open(result.link, '_blank');
+  //     });
+  //   // window.open(`${result.link}`);
+  //   console.log('result', JSON.stringify(result));
+  // }
 }
 
 
